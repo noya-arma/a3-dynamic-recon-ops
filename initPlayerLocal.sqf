@@ -6,7 +6,7 @@ waitUntil {!isNull player};
 
 #include "sunday_system\fnc_lib\sundayFunctions.sqf";
 #include "sunday_system\fnc_lib\droFunctions.sqf";
-#include "sunday_revive\reviveFunctions.sqf";
+//#include "sunday_revive\reviveFunctions.sqf";
 #include "sunday_system\fnc_lib\menuFunctions.sqf";
 
 addWeaponItemEverywhere = compileFinal " _this select 0 addPrimaryWeaponItem (_this select 1); ";
@@ -47,9 +47,10 @@ fnc_missionText = {
 };
 
 // Turn on menu music
-0 fadeMusic 0;
-playMusic "LeadTrack01_F_Jets";
-5 fadeMusic 1;
+// Trun off music
+//0 fadeMusic 0;
+//playMusic "LeadTrack01_F_Jets";
+//5 fadeMusic 1;
 
 player createDiarySubject ["dro", "Dynamic Recon Ops"];
 player createDiaryRecord ["dro", ["Dynamic Recon Ops", "
@@ -161,6 +162,9 @@ while {_counter < 1} do {
 closeDialog 1;
 */
 sleep 3;
+
+_pos = [playerUnitStandbyPosition, 0, 12, 1] call BIS_fnc_findSafePos;
+player setPos _pos;
 
 if (player == topUnit) then {	
 	waitUntil {!dialog};
@@ -280,54 +284,38 @@ _mapOpen = openMap [true, false];
 mapAnimAdd [0, 0.05, markerPos "centerMkr"];
 mapAnimCommit;
 cutText ["", "BLACK IN", 1];
-hintSilent "Close map when ready to access loadout menu";
 diag_log format ["DRO: Player %1 map initialized", player];
 
-waitUntil {!visibleMap};
-diag_log format ["DRO: Player %1 map closed", player];
-hintSilent "";
+// add select insert position event for admin
+if (player == topUnit) then {
+    player switchCamera "INTERNAL";
+    [
+    	"mapStartSelect",
+    	"onMapSingleClick",
+    	{
+    		deleteMarker "campMkr";
+    		customPos = _pos;
+    		publicVariable "customPos";
+    		markerPlayerStart = createMarker ["campMkr", _pos];
+    		markerPlayerStart setMarkerShape "ICON";
+    		markerPlayerStart setMarkerColor markerColorPlayers;
+    		markerPlayerStart setMarkerType "mil_end";
+    		markerPlayerStart setMarkerSize [1, 1];
+    		markerPlayerStart setMarkerText "Insert Position";
+    		publicVariable "markerPlayerStart";
+    	},
+    	[]
+    ] call BIS_fnc_addStackedEventHandler;
 
-cutText ["", "BLACK FADED"];
+	hint "투입지점을 지도에서 클릭하세요 / 지도를 닫으면 랜덤으로 투입지점이 선택됩니다.";
 
-// Open lobby
-_handle = CreateDialog "DRO_lobbyDialog";
-diag_log format ["DRO: Player %1 created DRO_lobbyDialog: %2", player, _handle];
-[] execVM "sunday_system\dialogs\populateLobby.sqf";
+	waitUntil {!visibleMap};
+    ["mapStartSelect", "onMapSingleClick"] call BIS_fnc_removeStackedEventHandler;
 
-sleep 0.5;
-cutText ["", "BLACK IN", 1];
-
-_actionID = player addAction ["Open Team Planning", 
-	{
-		_handle = CreateDialog "DRO_lobbyDialog";
-		[] execVM "sunday_system\dialogs\populateLobby.sqf";
-	}, nil, 6
-];
-
-//add ACE Arsenal to action menu
-_actionID2 = player addAction ["<t color='#FFDF00'>Open ACE Arsenal</t>", 
-	{
-		[player, player, true] call ACE_arsenal_fnc_openBox;
-	}, nil, 7
-];
-
-//add ACE Arsenal to interaction on team members
-_CHZ_AIACEArsenal = [
-	"AIACEArsenal",
-	"Change Equipment",
-	"",
-	{
-		params ["_target", "_player", "_params"];
-		[_target, _target, true] call ACE_arsenal_fnc_openBox;
-	},
-	{
-		(isPlayer _player) && (!(isPlayer _target)) && (_target in (units _player)) && (alive _target) && 
-		[_player, _target, []] call ACE_common_fnc_canInteractWith
-	}
-] call ACE_interact_menu_fnc_createAction;
-{
-	[_x, 0, ["ACE_MainActions"], _CHZ_AIACEArsenal] call ACE_interact_menu_fnc_addActionToObject;
-} forEach units player;
+	player setVariable ['startReady', true, true];
+} else {
+    player setVariable ['startReady', true, true];
+};
 
 while {
 	((missionNameSpace getVariable ["lobbyComplete", 0]) == 0)
@@ -339,6 +327,11 @@ while {
 		((findDisplay 626262) displayCtrl 6006) ctrlSetText format ["Insertion position: %1", (mapGridPosition (getMarkerPos 'campMkr'))];			
 	};
 	{
+		// auto ready for not admin
+		if (_x != topUnit) then {
+			_x setVariable ['startReady', true, true];
+		};
+
 		if (_x getVariable ["startReady", false] OR !isPlayer _x) then {
 			((findDisplay 626262) displayCtrl (_x getVariable "unitNameTagIDC")) ctrlSetTextColor [0.05, 1, 0.5, 1];
 		} else {
@@ -348,6 +341,7 @@ while {
 	if (player == topUnit) then {
 		_allHCs = entities "HeadlessClient_F";
 		_allHPs = allPlayers - _allHCs;
+		
 		if (({(_x getVariable ["startReady", false])} count _allHPs) >= count _allHPs) then {
 			missionNameSpace setVariable ['lobbyComplete', 1, true];	
 		};	
@@ -360,8 +354,8 @@ waitUntil {((missionNameSpace getVariable ["lobbyComplete", 0]) == 1)};
 diag_log format ["DRO: Player %1 received lobbyComplete", player];
 
 // Close dialogs twice in case player has arsenal open
-closeDialog 1;	
-closeDialog 1;	
+closeDialog 1;
+closeDialog 1;
 
 1 fadeSound 0;
 

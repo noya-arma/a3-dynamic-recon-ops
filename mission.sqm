@@ -8,18 +8,17 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=112;
+		nextID=113;
 	};
 	class Camera
 	{
-		pos[]={21764.373,107.94442,6558.5151};
-		dir[]={0.56353492,-0.70663875,0.4278903};
-		up[]={0.56278968,0.70757449,0.42732441};
-		aside[]={0.60472822,-1.4901161e-008,-0.7964319};
+		pos[]={49.993984,124.95863,-154.90993};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710671,0.70710683};
 	};
 };
 binarizationWanted=0;
-sourceName="DRO_for_NOYA";
+sourceName="DRO_for_NOYA 0.1";
 addons[]=
 {
 	"A3_Modules_F",
@@ -49,20 +48,20 @@ class AddonsMetaData
 randomSeed=13200576;
 class ScenarioData
 {
-	author="karskin";
-	overViewPicture="images\recon_image.jpg";
-	overViewPictureLocked="images\recon_image.jpg";
-	loadScreen="images\recon_image.jpg";
+	author="NOYA";
 	briefing=0;
 	aIKills=1;
-	disabledAI=1;
 	respawnDelay=10;
 	class Header
 	{
 		gameType="Coop";
 		minPlayers=1;
-		maxPlayers=16;
+		maxPlayers=30;
 	};
+	wreckRemovalMaxTime=3600;
+	corpseManagerMode=1;
+	corpseLimit=20;
+	corpseRemovalMaxTime=900;
 };
 class CustomAttributes
 {
@@ -275,11 +274,10 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={21829.158,14.91362,6607.8999};
-				angles[]={0.0026529003,5.030056,6.2458701};
+				position[]={0,-185.97,0};
 			};
 			name="logicStartPos";
-			init="missionNameSpace setVariable [""serverReady"", 0]; " \n "publicVariable ""serverReady"";" \n "[""InitializePlayer"", [player, true]] call BIS_fnc_dynamicGroups; " \n " " \n "";
+			init="missionNameSpace setVariable [""serverReady"", 0]; " \n "publicVariable ""serverReady"";" \n "";
 			id=48;
 			type="Logic";
 		};
@@ -295,21 +293,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21831.959,14.781919,6603.813};
-						angles[]={0,5.6611071,0};
+						position[]={0,-185.96857,0.050000012};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true; " \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u1";
-						description="Player 1";
+						description="미션 메이커";
 						isPlayer=1;
 					};
 					id=68;
 					type="B_recon_F";
-					atlOffset=0.015148163;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -346,21 +342,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21830.533,14.808025,6602.8135};
-						angles[]={0,5.3942485,0};
+						position[]={0,-185.96857,0.050000012};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE"";" \n "this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u2";
-						description="Player 2";
+						description="1소대장 -----------------------------";
 						isPlayable=1;
 					};
 					id=69;
 					type="B_recon_F";
-					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -397,21 +391,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21833.588,14.819665,6604.4873};
-						angles[]={0,5.9088898,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u3";
-						description="Player 3";
+						description="1소대 본부 1";
 						isPlayable=1;
 					};
 					id=70;
 					type="B_recon_F";
-					atlOffset=0.019938469;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -448,16 +440,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21829.188,14.811775,6601.7041};
-						angles[]={0,5.3318186,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u4";
-						description="Player 4";
+						description="1소대 본부2";
 						isPlayable=1;
 					};
 					id=71;
@@ -498,16 +489,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21835.078,14.866865,6604.9482};
-						angles[]={0,5.8811398,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u5";
-						description="Player 5";
+						description="1소대 본부3";
 						isPlayable=1;
 					};
 					id=72;
@@ -548,16 +538,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21828.395,14.786234,6600.4756};
-						angles[]={0,4.8420262,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u6";
-						description="Player 6";
+						description="1소대 1분대장 -----------------------------";
 						isPlayable=1;
 					};
 					id=73;
@@ -598,21 +587,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21836.523,14.911577,6605.0864};
-						angles[]={0,5.9298868,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u7";
-						description="Player 7";
+						description="1소대 1분대 본부1";
 						isPlayable=1;
 					};
 					id=74;
 					type="B_recon_F";
-					atlOffset=-9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -649,21 +636,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21827.928,14.750216,6598.9624};
-						angles[]={0,4.8484497,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u8";
-						description="Player 8";
+						description="1소대 1분대 1팀 1 (팀장)";
 						isPlayable=1;
 					};
 					id=75;
 					type="B_recon_F";
-					atlOffset=-9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -700,21 +685,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21830.463,14.840891,6605.3359};
-						angles[]={0,5.6611152,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u9";
-						description="Player 9";
+						description="1소대 1분대 1팀 2";
 						isPlayable=1;
 					};
 					id=77;
 					type="B_recon_F";
-					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -751,21 +734,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21829.037,14.882156,6604.3369};
-						angles[]={0,5.3942542,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE"";" \n "this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u10";
-						description="Player 10";
+						description="1소대 1분대 1팀 3";
 						isPlayable=1;
 					};
 					id=78;
 					type="B_recon_F";
-					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -802,21 +783,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21832.092,14.833344,6606.0112};
-						angles[]={0,5.9088817,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u11";
-						description="Player 11";
+						description="1소대 1분대 1팀 4";
 						isPlayable=1;
 					};
 					id=79;
 					type="B_recon_F";
-					atlOffset=0.045186996;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -853,16 +832,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21827.691,14.886473,6603.2271};
-						angles[]={0,5.3318238,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u12";
-						description="Player 12";
+						description="1소대 1분대 2팀 1 (팀장)";
 						isPlayable=1;
 					};
 					id=80;
@@ -903,21 +881,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21833.582,14.864591,6606.4722};
-						angles[]={0,5.8811312,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u13";
-						description="Player 13";
+						description="1소대 1분대 2팀 2";
 						isPlayable=1;
 					};
 					id=81;
 					type="B_recon_F";
-					atlOffset=0.041345596;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -954,16 +930,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21826.898,14.860914,6601.999};
-						angles[]={0,4.842032,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u14";
-						description="Player 14";
+						description="1소대 1분대 2팀 3";
 						isPlayable=1;
 					};
 					id=82;
@@ -1004,21 +979,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21835.029,14.893144,6606.6099};
-						angles[]={0,5.9298782,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u15";
-						description="Player 15";
+						description="1소대 1분대 2팀 4";
 						isPlayable=1;
 					};
 					id=83;
 					type="B_recon_F";
-					atlOffset=0.025355339;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1055,16 +1028,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21826.432,14.82058,6600.4858};
-						angles[]={0,4.8484545,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u16";
-						description="Player 16";
+						description="1소대 2분대장 -----------------------------";
 						isPlayable=1;
 					};
 					id=84;
@@ -1105,16 +1077,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21833.963,14.766034,6600.3867};
-						angles[]={0,5.3942542,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE"";" \n "this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u17";
-						description="Player 17";
+						description="1소대 2분대 본부1";
 						isPlayable=1;
 					};
 					id=94;
@@ -1155,21 +1126,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21837.018,14.957363,6602.061};
-						angles[]={0,5.9088817,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u18";
-						description="Player 18";
+						description="1소대 2분대 1팀 1 (팀장)";
 						isPlayable=1;
 					};
 					id=95;
 					type="B_recon_F";
-					atlOffset=0.045000076;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1206,16 +1175,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21832.617,14.686944,6599.2769};
-						angles[]={0,5.3318238,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u19";
-						description="Player 19";
+						description="1소대 2분대 1팀 2";
 						isPlayable=1;
 					};
 					id=96;
@@ -1256,21 +1224,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21838.508,15.010028,6602.522};
-						angles[]={0,5.8811312,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u20";
-						description="Player 20";
+						description="1소대 2분대 1팀 3";
 						isPlayable=1;
 					};
 					id=97;
 					type="B_recon_F";
-					atlOffset=0.040999413;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1307,16 +1273,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21831.824,14.657132,6598.0498};
-						angles[]={0,4.842032,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u21";
-						description="Player 21";
+						description="1소대 2분대 1팀 4";
 						isPlayable=1;
 					};
 					id=98;
@@ -1357,21 +1322,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21839.955,15.03857,6602.6597};
-						angles[]={0,5.9298782,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u22";
-						description="Player 22";
+						description="1소대 2분대 2팀 1 (팀장)";
 						isPlayable=1;
 					};
 					id=99;
 					type="B_recon_F";
-					atlOffset=0.024998665;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1408,16 +1371,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21831.357,14.622826,6596.5356};
-						angles[]={0,4.8484545,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u23";
-						description="Player 23";
+						description="1소대 2분대 2팀 2";
 						isPlayable=1;
 					};
 					id=100;
@@ -1458,16 +1420,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21836.357,14.818333,6595.957};
-						angles[]={0,5.3942542,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE"";" \n "this setCaptive true;";
+						init="this disableAI ""MOVE"";" \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u24";
-						description="Player 24";
+						description="1소대 2분대 2팀 3";
 						isPlayable=1;
 					};
 					id=102;
@@ -1508,16 +1469,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21839.412,14.964658,6597.6318};
-						angles[]={0,5.9088817,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u25";
-						description="Player 25";
+						description="1소대 2분대 2팀 4";
 						isPlayable=1;
 					};
 					id=103;
@@ -1558,14 +1518,13 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21835.012,14.706489,6594.8467};
-						angles[]={0,5.3318238,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u26";
 						description="Player 26";
 						isPlayable=1;
@@ -1608,14 +1567,13 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21840.902,15.026867,6598.0918};
-						angles[]={0,5.8811312,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u27";
 						description="Player 27";
 						isPlayable=1;
@@ -1658,14 +1616,13 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21834.221,14.624678,6593.6196};
-						angles[]={0,4.842032,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u28";
 						description="Player 28";
 						isPlayable=1;
@@ -1708,21 +1665,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21842.35,15.085063,6598.23};
-						angles[]={0,5.9298782,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u29";
 						description="Player 29";
 						isPlayable=1;
 					};
 					id=107;
 					type="B_recon_F";
-					atlOffset=-9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1759,14 +1714,13 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={21833.752,14.554166,6592.106};
-						angles[]={0,4.8484545,0};
+						position[]={0,-185.96857,0.050003052};
 					};
 					side="West";
 					flags=5;
 					class Attributes
 					{
-						init="this disableAI ""MOVE""; this setCaptive true;";
+						init="this disableAI ""MOVE""; " \n "this setCaptive true;" \n "this setPos ([[],0,-1] call BIS_fnc_findSafePos);";
 						name="u30";
 						description="Player 30";
 						isPlayable=1;
@@ -1809,26 +1763,19 @@ class Mission
 			{
 			};
 			id=67;
-			atlOffset=0.015148163;
 		};
 		class Item2
 		{
-			dataType="Trigger";
-			position[]={21829.207,14.919414,6612.4292};
-			class Attributes
+			dataType="Logic";
+			class PositionInfo
 			{
-				condition="true";
-				onActivation="[""InitializePlayer"", [player, true]] call BIS_fnc_dynamicGroups; " \n " " \n "";
-				onDeactivation="[""InitializePlayer"", [player, true]] call BIS_fnc_dynamicGroups; " \n " " \n "";
-				sizeA=0;
-				sizeB=0;
-				repeatable=1;
-				activationType="NOT PRESENT";
-				activationBy="ANY";
-				triggerInterval=10;
+				position[]={0,-185.97,0};
 			};
-			id=111;
-			type="EmptyDetector";
+			name="HC1";
+			isPlayable=1;
+			description="HC1";
+			id=112;
+			type="HeadlessClient_F";
 		};
 	};
 };

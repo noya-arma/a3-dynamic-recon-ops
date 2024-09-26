@@ -6,11 +6,11 @@ if (['taskStealth'] call BIS_fnc_taskExists) then {
 };
 ['taskExtract', 'SUCCEEDED', true] spawn BIS_fnc_taskSetState;
 
-sleep 5;
+/*sleep 5;
 [["", "BLACK OUT", 5]] remoteExec ["cutText", 0];
 [5, 0] remoteExec ["fadeSound", 0];
 [5, 0] remoteExec ["fadeSpeech", 0];
-sleep 5;
+sleep 5;*/
 
 diag_log 'DRO: Ending MP mission';
 _successCount = 0;
@@ -28,7 +28,7 @@ _failCount = 0;
 diag_log format ["DRO: At end of mission _successCount is %1", _successCount];
 diag_log format ["DRO: At end of mission _failCount is %1", _failCount];
 diag_log format ["DRO: At end of mission civDeathCounter is %1", civDeathCounter];
-
+/*
 if (civDeathCounter > 1) then {
 	if (civDeathCounter == 2) then {
 		if (isMultiplayer) then {
@@ -66,3 +66,4 @@ if (civDeathCounter > 1) then {
 		};
 	};	
 };
+*/

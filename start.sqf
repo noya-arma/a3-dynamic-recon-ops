@@ -2,7 +2,7 @@ diag_log "DRO: Main DRO script started";
 
 #include "sunday_system\fnc_lib\sundayFunctions.sqf";
 #include "sunday_system\fnc_lib\droFunctions.sqf";
-#include "sunday_revive\reviveFunctions.sqf";
+//#include "sunday_revive\reviveFunctions.sqf";
 #include "sunday_system\generate_enemies\generateEnemiesFunctions.sqf";
 
 [] execVM "sunday_system\fnc_lib\objectsLibrary.sqf";
@@ -255,6 +255,7 @@ if ((["Stamina", 0] call BIS_fnc_getParamValue) > 0) then {
 		};
 	};
 };
+
 
 // Get player faction
 playersFactionName = (configFile >> "CfgFactionClasses" >> playersFaction >> "displayName") call BIS_fnc_GetCfgData;
@@ -905,16 +906,18 @@ _objGroupingHandle = [] execVM "sunday_system\objectives\objGrouping.sqf";
 waitUntil {scriptDone _objGroupingHandle};
 
 // Based on task data, assign tasks to players or assign recon tasks instead
+// + ignore recon tacks, recon tasks is suck (determined by each task obj[6] .sqf file example = cache.sqf _reconChance field init)
 {
-	diag_log format ["DRO: %1 recon chance %2 checked against %3", (_x select 0), (_x select 6), baseReconChance]; 
-	if ((_x select 6) < baseReconChance) then {
+	diag_log format ["DRO: %1 recon chance %2 checked against %3", (_x select 0), (_x select 6), baseReconChance];
+	// before ignore 'if ((_x select 6) < baseReconChance) then {'
+	if (true) then {
 		// Create task from task data
 		diag_log "DRO: Creating regular task";
-		[_x, true, true] call sun_assignTask;			
-	} else {		
+		[_x, true, true] call sun_assignTask;
+	} else {
 		// Create recon addition
 		diag_log "DRO: Creating a recon task";
-		[_x, true, true] execVM "sunday_system\objectives\reconTask.sqf";		
+		[_x, true, true] execVM "sunday_system\objectives\reconTask.sqf";
 	};
 } forEach objData;
 
@@ -1108,18 +1111,57 @@ missionNamespace setVariable ["dro_introCamReady", 1, true];
 
 // Generate chances
 //_friendlyChance = if (count AOLocations > 1) then {random 1} else {0};
-_friendlyChance = if (missionPreset == 3) then {1} else {0};
+_friendlyChance = if (missionPreset == 3) then {0} else {0};
 //_friendlyChance = 1; // DEBUG
 /*
 _ambFriendlyChance = if (count AOLocations > 1 || stealthEnabled == 2) then {
 	if (_friendlyChance > 0.75) then {random 1.2} else {random 1};
 } else {0};
 */
-_ambFriendlyChance = if (missionPreset == 3) then {1} else {0};
+_ambFriendlyChance = if (missionPreset == 3) then {0} else {0};
 //if (missionPreset == 3) then {_ambFriendlyChance = 1};
 
 if (_friendlyChance > 0.8 || _ambFriendlyChance > 0.8) then {
 	[_friendlyChance, _ambFriendlyChance] execVM "sunday_system\player_setup\generateFriendlies.sqf";	
+};
+
+// if conbined ops, set hold task
+if (missionPreset == 3) then {
+	_holdAOs = [];
+	
+	_taskAOs = [];
+	diag_log format ["DRO: objData = %1", objData];
+	{
+		_taskPos = (_x select 5);//_x call BIS_fnc_taskDestination;
+		diag_log format ["DRO: _taskPos = %1", _taskPos];
+		_nearAOs = [AOLocations, [_taskPos], {(_x select 0) distance _input0}, "ASCEND"] call BIS_fnc_sortBy;
+		if (((_nearAOs select 0) select 4) == 0) then {
+			_taskAOs pushBack (_nearAOs select 0);
+		};
+	} forEach objData;
+	diag_log format ["DRO: _taskAOs = %1", _taskAOs];
+	
+	if (count _taskAOs > 0) then {
+		_taskAOs = _taskAOs call BIS_fnc_consolidateArray;
+		diag_log format ["DRO: _taskAOs consolidate = %1", _taskAOs];
+		_taskAOs = [_taskAOs, [], {(_x select 1)}, "DESCEND"] call BIS_fnc_sortBy;
+		diag_log format ["DRO: _taskAOs consolidate sort = %1", _taskAOs];
+		{
+			_holdAOs pushBack (_x select 0);
+		} forEach _taskAOs;
+		diag_log format ["DRO: _holdAOs = %1", _holdAOs];		
+	} else {
+		{
+			if ((_x select 4) == 0) then {
+				_holdAOs pushBack _x;
+			};
+		} forEach AOLocations;	
+	};
+	
+	if (count _holdAOs > 0) then {		
+		holdAO = (_holdAOs select 0);
+		_AONameAmbient = text (holdAO select 5);
+	};
 };
 
 
